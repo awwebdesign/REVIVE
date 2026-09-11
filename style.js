@@ -59,25 +59,55 @@ window.addEventListener('scroll', updateHeader, {passive:true});
 header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
 menu.addEventListener('click', () => header.classList.remove('is-hidden'));
 
-// Photographic tabs support arrows, Home/End and native keyboard activation.
+// Desktop tabs become individual disclosures beneath each card on mobile.
 const serviceTabs = [...document.querySelectorAll('.service-tab')];
 const servicePanels = [...document.querySelectorAll('.service-panel')];
+const serviceTabList = document.querySelector('.service-tabs');
+const servicePanelList = document.querySelector('.service-panels');
+const mobileTreatments = window.matchMedia('(max-width: 700px)');
+let selectedService = 0;
 function selectService(index, animate = true) {
+  selectedService = index;
   serviceTabs.forEach((tab, i) => {
-    tab.setAttribute('aria-selected', String(i === index));
-    tab.tabIndex = i === index ? 0 : -1;
+    if (mobileTreatments.matches) {
+      tab.removeAttribute('aria-selected');
+      tab.setAttribute('aria-expanded', String(i === index));
+      tab.tabIndex = 0;
+    } else {
+      tab.removeAttribute('aria-expanded');
+      tab.setAttribute('aria-selected', String(i === index));
+      tab.tabIndex = i === index ? 0 : -1;
+    }
     servicePanels[i].hidden = i !== index;
   });
-  if (animate && !motionPreference.matches) {
+  if (index >= 0 && animate && !motionPreference.matches) {
     servicePanels[index].animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}], {duration:240,easing:easeOut});
   }
 }
+function layoutTreatments() {
+  const mobile = mobileTreatments.matches;
+  serviceTabList.setAttribute('role', mobile ? 'group' : 'tablist');
+  serviceTabs.forEach((tab, i) => {
+    tab.setAttribute('role', mobile ? 'button' : 'tab');
+    servicePanels[i].setAttribute('role', mobile ? 'region' : 'tabpanel');
+    if (mobile) tab.after(servicePanels[i]);
+    else servicePanelList.append(servicePanels[i]);
+  });
+  servicePanelList.hidden = mobile;
+  selectService(!mobile && selectedService < 0 ? 0 : selectedService, false);
+}
 serviceTabs.forEach((tab, i) => {
   tab.addEventListener('click', event => {
-    selectService(i, event.detail !== 0);
-    if (window.innerWidth <= 700) servicePanels[i].scrollIntoView({behavior:motionPreference.matches ? 'instant' : 'smooth',block:'center'});
+    const previousTop = tab.getBoundingClientRect().top;
+    selectService(mobileTreatments.matches && selectedService === i ? -1 : i, event.detail !== 0);
+    if (mobileTreatments.matches) {
+      // Closing an earlier panel must not pull the chosen card away from the finger.
+      const offset = tab.getBoundingClientRect().top - previousTop;
+      if (Math.abs(offset) > 1) window.scrollBy({top:offset,behavior:'instant'});
+    }
   });
   tab.addEventListener('keydown', event => {
+    if (mobileTreatments.matches) return;
     let index;
     if (event.key === 'ArrowRight') index = (i + 1) % serviceTabs.length;
     if (event.key === 'ArrowLeft') index = (i + serviceTabs.length - 1) % serviceTabs.length;
@@ -86,7 +116,8 @@ serviceTabs.forEach((tab, i) => {
     if (index !== undefined) { event.preventDefault(); selectService(index, false); serviceTabs[index].focus(); }
   });
 });
-selectService(0, false);
+mobileTreatments.addEventListener('change', layoutTreatments);
+layoutTreatments();
 
 // Real reviews remain native horizontally scrollable content, even without JS.
 // The repeated group is only for seamless wrapping, never counted as extra reviews.
