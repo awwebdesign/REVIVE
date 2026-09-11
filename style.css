@@ -43,6 +43,15 @@ h1{font-size:clamp(94px,10.7vw,166px);text-transform:uppercase;font-weight:600;l
 @media(prefers-reduced-motion:reduce){.review-track{will-change:auto}.hero-photo{animation:none}.service-tab img{transform:none!important}}
 
 /* Still photography, automatic copy reveals and scroll-aware navigation. */
+.footer-legal>.shell{flex-wrap:wrap;align-items:center}.design-credit{white-space:nowrap}.design-credit:hover{text-decoration:underline}
+.service-panels[hidden]{display:none}
+@media(max-width:700px){
+ .service-stage{overflow-anchor:none}
+ .service-tabs>.service-panel{margin-top:-8px;margin-bottom:10px}
+ .service-tab[aria-expanded=true]:after{transform:scaleX(1)}
+ .service-tab[aria-expanded=true] img{filter:saturate(.65) brightness(.98);transform:scale(1.045)}
+ .footer-legal .design-credit{margin-left:0;width:100%}
+}
 .hero-photo,.hero-photo>img{animation:none!important;transform:none!important;transition:none!important;clip-path:none!important}
 .header.is-hidden{transform:translateY(calc(-100% - 30px));pointer-events:none}
 .header:has(:focus-visible){transform:translateY(0);pointer-events:auto}
