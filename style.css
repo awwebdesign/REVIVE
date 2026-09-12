@@ -69,3 +69,247 @@ h1{font-size:clamp(94px,10.7vw,166px);text-transform:uppercase;font-weight:600;l
  .motion-enabled .text-reveal{transition:opacity 600ms ease-out!important;transform:none!important}
  .motion-enabled .text-reveal.pending{opacity:0;transform:none!important}
 }
+
+/* ================================================================== *
+   CONCEPT v2 — client feedback: lean back toward the current site.
+   1) Gothic blackletter display type (Grenze Gotisch) on the headings
+      and wordmarks, echoing the logo. Body copy stays DM Sans so it
+      keeps reading well. Blackletter never goes all-caps.
+   2) Larger gold wordmark in the header.
+   3) Skull mark reinstated in the hero, like the live site.
+ * ================================================================== */
+:root{--gothic:'Grenze Gotisch','Barlow Condensed',serif}
+
+h1,h2,.service-name,.footer-wordmark,.footer-invitation h2,.about-copy h2{font-family:var(--gothic)}
+h1{text-transform:none;font-weight:600;letter-spacing:.005em;line-height:1.02}
+.headline-line{padding-bottom:.16em}
+h2{letter-spacing:.005em;line-height:1.05;font-weight:600}
+.service-name{letter-spacing:.005em;line-height:1;font-weight:600}
+.footer-wordmark{letter-spacing:.01em;font-weight:700}
+
+/* Header mark: bigger gold "Revive" + skull lockup, like the live site. */
+.brand{width:242px}
+.brand img{width:222px;height:66px;object-fit:contain;object-position:left center}
+
+@media(max-width:900px){.brand{width:168px}.brand img{width:152px;height:46px}}
+@media(max-width:700px){.brand{width:140px}.brand img{width:128px;height:39px}}
+@media(max-width:360px){.brand{width:118px}.brand img{width:112px;height:34px}}
+
+/* ================================================================== *
+   CONCEPT v3 — client feedback: current-site hero + more badass.
+   Hero is now the gold "Revive + skull" lockup on a dark, gritty
+   backdrop with only the booking button, mirroring the live homepage.
+ * ================================================================== */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.hero,.hero-layout{min-height:100svh}
+.hero{background:var(--deep)}
+.hero .hero-photo{inset:0;-webkit-mask:none;mask:none}
+.hero .hero-photo>img{width:100%;height:100%;object-fit:cover;object-position:center 44%;filter:saturate(.35) contrast(1.12) brightness(.58)}
+.hero .photo-shade{background:
+  radial-gradient(115% 78% at 50% 44%, transparent 0%, rgba(9,10,9,.5) 52%, rgba(9,10,9,.92) 100%),
+  linear-gradient(0deg, var(--deep) 1%, rgba(9,10,9,.32) 32%, rgba(9,10,9,.5) 72%, var(--deep) 100%)}
+/* faint film grain for grit (fixed within the hero, no scroll repaint) */
+.hero-visual::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.hero-layout{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:42px;padding:150px 0 96px;text-align:center}
+.hero-mark{width:min(56vw,540px);height:auto;filter:drop-shadow(0 14px 46px rgba(0,0,0,.72));
+  animation:fade-up 850ms var(--ease-out) both}
+.hero-cta{min-width:236px;min-height:64px;font-size:15px;justify-content:center;
+  animation:fade-up 850ms 150ms var(--ease-out) both}
+
+.cinema-frame{inset:130px 24px 74px;border-color:#ffffff14}
+.hero-scroll{position:absolute;left:50%;bottom:30px;translate:-50% 0;width:1px;height:56px;
+  background:linear-gradient(var(--gold-light),transparent);opacity:.65}
+
+@media(max-width:900px){
+  .hero-layout{gap:34px;padding:140px 0 84px}
+  .hero-mark{width:min(66vw,460px)}
+  .cinema-frame{inset:104px 16px 64px}
+}
+@media(max-width:700px){
+  .hero-layout{gap:30px;padding:120px 0 76px}
+  .hero-mark{width:78vw}
+  .cinema-frame{inset:96px 12px 58px}
+  .hero-scroll{height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-mark,.hero-cta{animation:copy-fade 650ms ease-out both!important}
+}
+
+/* ================================================================== *
+   CONCEPT v4 — "more powerful" pass. Fonts are already approved; this
+   scales the section LAYOUTS up to match the powerful hero mark:
+   oversized gold-on-black headings and stacked (not split) headers,
+   closer to the live site's big, bold, simple sections.
+ * ================================================================== */
+/* Oversized, heavier headings across the page. */
+h2{font-weight:700;line-height:1;letter-spacing:0}
+.treatments .section-heading h2,.reviews h2{font-size:clamp(60px,8.6vw,128px)}
+.about-copy h2{font-size:clamp(64px,7.6vw,116px);line-height:.98}
+.service-name{font-size:clamp(44px,5vw,78px);font-weight:700}
+
+/* Stacked section headers: the heading dominates, support text sits
+   beneath it (not in a side column) — simpler and more powerful. */
+.section-heading{display:block;margin-bottom:46px}
+.section-heading>div{max-width:none}
+.section-heading>p{max-width:62ch;margin:20px 0 0;font-size:17px}
+.reviews .section-heading{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:26px 60px}
+.reviews .section-heading>div{flex:1 1 340px}
+
+/* Treatment intro band under the hero: bigger, more statement-like. */
+.practice-note p{font-size:clamp(22px,2.4vw,32px);font-weight:500}
+
+@media(max-width:700px){
+  .treatments .section-heading h2,.reviews h2{font-size:clamp(46px,12vw,72px)}
+  .about-copy h2{font-size:clamp(52px,13vw,76px)}
+  .service-name{font-size:clamp(42px,11vw,60px)}
+  .section-heading>p{font-size:16px}
+}
+
+/* ================================================================== *
+   CONCEPT v6 — feedback round 4:
+   - Lighter navbar (strong, not a heavy framed block); 01/02/03 removed.
+   - Hero frame + scroll lines removed (in markup).
+   - Redesigned, animated reviews; caption lines removed (in markup).
+ * ================================================================== */
+
+/* --- Navbar: cleaner floating bar, no internal dividers, pill CTA --- */
+@media(min-width:901px){
+  .header{top:14px;left:20px;right:20px;height:74px}
+  .nav-shell{padding:0 10px 0 20px;gap:10px;background:rgba(10,11,10,.62);
+    border:1px solid rgba(255,255,255,.09);box-shadow:0 8px 30px rgba(0,0,0,.3);
+    backdrop-filter:blur(14px);border-radius:10px}
+  .brand{height:100%;width:190px;border-right:0;padding-right:0}
+  .brand img{width:176px;height:64px}
+  .nav{height:auto;gap:2px;margin-left:auto}
+  .nav a{height:auto;padding:11px 16px;border-left:0;flex-direction:row;align-items:center;
+    font-size:15px;line-height:1;color:var(--white)}
+  .nav a:after{bottom:5px;left:16px;right:16px;height:2px}
+  .nav a.nav-treatment{color:var(--gold-light)}
+  .header-book{align-self:center;min-width:0;border-radius:7px;padding:12px 22px;gap:14px;
+    font-size:14px;margin-left:6px}
+  .header-book span{font-size:20px}
+  html{scroll-padding-top:110px}
+}
+
+/* --- Reviews: bolder cards, gold accent, no index, hover + entrance --- */
+.review-index{display:none}
+.review-card,.review-card:last-child{background:linear-gradient(158deg,#1c1f1a,#131512);
+  border:1px solid #34382f;border-left:3px solid var(--gold);
+  transition:transform 280ms var(--ease-out),border-color 240ms var(--ease-out),box-shadow 280ms var(--ease-out)}
+.review-card blockquote{font-size:18px;line-height:1.6;letter-spacing:-.005em}
+.review-card blockquote::before{content:'\201C';display:block;font:700 44px/.6 var(--gothic);
+  color:var(--gold);margin-bottom:10px}
+.review-card .stars{color:var(--gold-light)}
+.review-card figcaption small{color:#9a9e8f}
+.reviews{padding-bottom:70px}
+@media(hover:hover) and (pointer:fine){
+  .review-card:hover{transform:translateY(-7px);border-color:var(--gold);
+    border-left-color:var(--gold-light);box-shadow:0 20px 44px rgba(0,0,0,.45)}
+  .review-card:hover .avatar{background:var(--gold-light);color:var(--deep)}
+}
+/* entrance for the whole review strip */
+.motion-enabled .review-viewport.reveal{transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out)}
+.motion-enabled .review-viewport.reveal.pending{opacity:0;transform:translateY(30px)}
+
+/* Lighter frame at EVERY width (tablet/mobile kept the heavy gold border). */
+.nav-shell{border-color:rgba(255,255,255,.1)}
+.brand{border-right:0}
+@media(max-width:900px){
+  .nav-shell{background:rgba(10,11,10,.82);box-shadow:0 8px 26px rgba(0,0,0,.3)}
+  .nav{border-color:rgba(255,255,255,.12)}
+}
+
+/* ===================== v8 motion pass ===================== */
+/* Navbar C: floating entrance (scramble handled in JS) */
+@keyframes navIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.motion-enabled .nav-shell{animation:navIn 640ms 60ms var(--ease-out) both}
+/* Hero A: ken burns backdrop + lockup curtain reveal + cta pulse */
+@keyframes kenburns{from{transform:scale(1.06)}to{transform:scale(1.18)}}
+@keyframes markReveal{from{clip-path:inset(0 0 102% 0);opacity:.2}to{clip-path:inset(0);opacity:1}}
+@keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(209,179,122,.5)}100%{box-shadow:0 0 0 20px rgba(209,179,122,0)}}
+.motion-enabled .hero .hero-photo>img{animation:kenburns 16s var(--ease-in-out) both alternate infinite}
+.motion-enabled .hero-mark{animation:markReveal 1100ms 160ms var(--ease-in-out) both}
+.motion-enabled .hero-cta{animation:ctaPulse 2600ms 1400ms ease-out infinite}
+/* Behandelingen C: card deck */
+.treatment-deck{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.t-card{position:relative;overflow:hidden;min-height:430px;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;isolation:isolate;border:1px solid var(--line);background:var(--deep);color:var(--white);transition:transform 380ms var(--ease-out),border-color 380ms ease}
+.t-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55%;z-index:-2;filter:saturate(.3) brightness(.5);transition:transform 700ms var(--ease-out),filter 400ms ease}
+.t-card:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#090a0922 15%,#090a09cc 60%,#090a09 100%)}
+.t-num{position:absolute;top:20px;left:24px;font:700 15px var(--display);letter-spacing:.14em;color:var(--gold-light)}
+.t-body{display:block}
+.t-body>small{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px}
+.t-name{display:block;font:600 clamp(34px,3.4vw,50px)/.96 var(--gothic);letter-spacing:.005em;margin-bottom:12px}
+.t-body>p{color:var(--muted);font-size:14px;line-height:1.6;margin:0}
+.t-go{display:inline-block;margin-top:16px;font-size:12px;letter-spacing:.06em;color:var(--gold-light);border-bottom:1px solid var(--line);padding-bottom:6px}
+.t-go:after{content:' \2192'}
+@media(hover:hover) and (pointer:fine){.t-card:hover{transform:translateY(-8px);border-color:var(--gold)}.t-card:hover>img{transform:scale(1.08);filter:saturate(.6) brightness(.72)}}
+@media(max-width:760px){.treatment-deck{grid-template-columns:1fr;gap:10px}.t-card{min-height:250px;padding:22px}}
+/* Reviews A: gold accent edge on cards */
+.review-card{border-left:2px solid var(--gold)}
+/* Footer A: wordmark curtain reveal + book tilt/fill */
+.motion-enabled .footer-wordmark{clip-path:inset(0);transition:clip-path 950ms var(--ease-in-out)}
+.motion-enabled .footer-wordmark.pending{opacity:1;transform:none;clip-path:inset(0 0 102% 0)}
+@media(hover:hover) and (pointer:fine){.footer-book:hover{transform:rotate(-6deg) scale(1.05);background:var(--gold-light);color:var(--deep)}}
+@media(prefers-reduced-motion:reduce){.motion-enabled .nav-shell,.motion-enabled .hero .hero-photo>img,.motion-enabled .hero-mark,.motion-enabled .hero-cta{animation:none!important}.motion-enabled .footer-wordmark.pending{clip-path:none}.t-card .t-body>p{max-height:160px;opacity:1}}
+
+/* ===================== v9: square CTAs, mobile nav, text + image motion ===================== */
+/* Square action buttons to match the hero CTA (the round footer badge stays round) */
+.button{border-radius:2px}
+.header-book,.nav-book{border-radius:2px}
+
+/* Lenis smooth scroll support */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto !important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+
+/* Word-by-word heading reveal (wrappers are <i> so h2 span rules never catch them) */
+.heading-rw .rw{display:inline-block;font-style:normal}
+.motion-enabled .heading-rw .rw{opacity:0;transform:translateY(.5em);transition:opacity 620ms var(--ease-out),transform 720ms var(--ease-out)}
+.motion-enabled .heading-rw.in .rw{opacity:1;transform:none}
+
+/* Picture reveal on the treatment deck */
+@keyframes imgWipe{from{clip-path:inset(0 0 100% 0);transform:scale(1.14)}to{clip-path:inset(0);transform:scale(1)}}
+.motion-enabled .treatment-deck .t-card>img{clip-path:inset(0 0 100% 0)}
+.motion-enabled .treatment-deck.in .t-card>img{animation:imgWipe 900ms var(--ease-out) forwards}
+.motion-enabled .treatment-deck.in .t-card:nth-child(2)>img{animation-delay:120ms}
+.motion-enabled .treatment-deck.in .t-card:nth-child(3)>img{animation-delay:240ms}
+
+/* Gentle scroll parallax on the portrait (progressive, safe fallback) */
+@supports (animation-timeline: view()){@media(prefers-reduced-motion:no-preference){
+ @keyframes portraitPar{from{transform:translateY(-4%) scale(1.07)}to{transform:translateY(4%) scale(1.07)}}
+ .about-photo>img{animation:portraitPar linear both;animation-timeline:view();animation-range:entry 0% cover 100%}
+}}
+
+/* Tap-to-fill on every rectangle button (hover-fill was dead on touch) */
+.button:active:before{transform:translateX(0)}
+
+/* Mobile navbar: full-screen overlay with the booking CTA inside */
+.nav .nav-book{display:none}
+@media(max-width:900px){
+ .nav{position:fixed;inset:0;top:0;left:0;right:0;width:100%;height:100dvh;max-width:none;border:0;border-radius:0;box-shadow:none;background:var(--deep);z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:120px 26px 44px;overflow:auto}
+ .nav-shell{background:var(--deep);backdrop-filter:none;-webkit-backdrop-filter:none}
+ .brand{position:relative;z-index:22}
+ .menu-toggle{position:relative;z-index:22}
+ .nav a{width:100%;max-width:440px;height:auto;border-left:0;border-bottom:1px solid rgba(255,255,255,.1);padding:24px 6px;font:600 clamp(34px,9vw,52px)/1 var(--gothic);flex-direction:row;align-items:center;justify-content:center;text-align:center;color:var(--white);opacity:0;transform:translateY(16px);transition:opacity 420ms var(--ease-out),transform 480ms var(--ease-out)}
+ .nav a:active{color:var(--gold-light)}
+ .nav.is-open a{opacity:1;transform:none}
+ .nav.is-open a:nth-child(1){transition-delay:90ms}
+ .nav.is-open a:nth-child(2){transition-delay:160ms}
+ .nav.is-open a:nth-child(3){transition-delay:230ms}
+ .nav .nav-book{display:flex;width:100%;max-width:440px;border-bottom:0;margin-top:30px;min-height:64px;justify-content:center;font:700 16px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--deep);opacity:0;transform:translateY(16px);transition:opacity 420ms var(--ease-out) 300ms,transform 480ms var(--ease-out) 300ms}
+ .nav.is-open .nav-book{opacity:1;transform:none}
+ .menu-toggle[aria-expanded=true]{border-color:var(--gold);color:var(--gold-light)}
+ .footer-legal{padding-bottom:44px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ .heading-rw .rw{opacity:1 !important;transform:none !important}
+ .motion-enabled .treatment-deck .t-card>img{clip-path:none !important;animation:none !important}
+ .about-photo>img{animation:none !important}
+ .nav a,.nav .nav-book{opacity:1 !important;transform:none !important}
+}
