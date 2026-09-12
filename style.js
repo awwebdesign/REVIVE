@@ -23,7 +23,7 @@ document.addEventListener('keydown', event => {
 });
 // Reveal copy automatically as it enters the viewport, once per visit.
 document.querySelectorAll('.section-heading, .about-copy, .footer-invitation').forEach(el => el.classList.remove('reveal'));
-document.querySelectorAll('.practice-note p, .section-heading h2, .section-heading p, .about-copy > p, .about-copy h2, .footer-invitation h2, .footer-invitation p, .footer-details > div').forEach((el, i) => {
+document.querySelectorAll('.practice-note p, .section-heading p, .about-copy > p, .footer-invitation p, .footer-details > div').forEach((el, i) => {
   el.classList.add('text-reveal');
   el.style.setProperty('--reveal-delay', (i % 3) * 65 + 'ms');
 });
@@ -56,68 +56,11 @@ function updateHeader() {
   header.classList.toggle('is-hidden', direction > 0);
 }
 window.addEventListener('scroll', updateHeader, {passive:true});
+updateHeader();
 header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
 menu.addEventListener('click', () => header.classList.remove('is-hidden'));
 
-// Desktop tabs become individual disclosures beneath each card on mobile.
-const serviceTabs = [...document.querySelectorAll('.service-tab')];
-const servicePanels = [...document.querySelectorAll('.service-panel')];
-const serviceTabList = document.querySelector('.service-tabs');
-const servicePanelList = document.querySelector('.service-panels');
-const mobileTreatments = window.matchMedia('(max-width: 700px)');
-let selectedService = 0;
-function selectService(index, animate = true) {
-  selectedService = index;
-  serviceTabs.forEach((tab, i) => {
-    if (mobileTreatments.matches) {
-      tab.removeAttribute('aria-selected');
-      tab.setAttribute('aria-expanded', String(i === index));
-      tab.tabIndex = 0;
-    } else {
-      tab.removeAttribute('aria-expanded');
-      tab.setAttribute('aria-selected', String(i === index));
-      tab.tabIndex = i === index ? 0 : -1;
-    }
-    servicePanels[i].hidden = i !== index;
-  });
-  if (index >= 0 && animate && !motionPreference.matches) {
-    servicePanels[index].animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}], {duration:240,easing:easeOut});
-  }
-}
-function layoutTreatments() {
-  const mobile = mobileTreatments.matches;
-  serviceTabList.setAttribute('role', mobile ? 'group' : 'tablist');
-  serviceTabs.forEach((tab, i) => {
-    tab.setAttribute('role', mobile ? 'button' : 'tab');
-    servicePanels[i].setAttribute('role', mobile ? 'region' : 'tabpanel');
-    if (mobile) tab.after(servicePanels[i]);
-    else servicePanelList.append(servicePanels[i]);
-  });
-  servicePanelList.hidden = mobile;
-  selectService(!mobile && selectedService < 0 ? 0 : selectedService, false);
-}
-serviceTabs.forEach((tab, i) => {
-  tab.addEventListener('click', event => {
-    const previousTop = tab.getBoundingClientRect().top;
-    selectService(mobileTreatments.matches && selectedService === i ? -1 : i, event.detail !== 0);
-    if (mobileTreatments.matches) {
-      // Closing an earlier panel must not pull the chosen card away from the finger.
-      const offset = tab.getBoundingClientRect().top - previousTop;
-      if (Math.abs(offset) > 1) window.scrollBy({top:offset,behavior:'instant'});
-    }
-  });
-  tab.addEventListener('keydown', event => {
-    if (mobileTreatments.matches) return;
-    let index;
-    if (event.key === 'ArrowRight') index = (i + 1) % serviceTabs.length;
-    if (event.key === 'ArrowLeft') index = (i + serviceTabs.length - 1) % serviceTabs.length;
-    if (event.key === 'Home') index = 0;
-    if (event.key === 'End') index = serviceTabs.length - 1;
-    if (index !== undefined) { event.preventDefault(); selectService(index, false); serviceTabs[index].focus(); }
-  });
-});
-mobileTreatments.addEventListener('change', layoutTreatments);
-layoutTreatments();
+// (treatments tab-stage removed in v8: replaced by static card deck)
 
 // Real reviews remain native horizontally scrollable content, even without JS.
 // The repeated group is only for seamless wrapping, never counted as extra reviews.
@@ -172,3 +115,85 @@ new ResizeObserver(() => { groupWidth = reviewGroup.getBoundingClientRect().widt
 motionPreference.addEventListener('change', updateReviews);
 document.addEventListener('visibilitychange', updateReviews);
 updateReviews();
+
+
+// Navbar C: nav labels scramble briefly on hover (desktop pointers, motion allowed).
+if (!motionPreference.matches && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#*/';
+  document.querySelectorAll('.nav a').forEach(link => {
+    const real = link.textContent;
+    let busy = false;
+    link.addEventListener('mouseenter', () => {
+      if (busy) return;
+      busy = true;
+      let frame = 0;
+      const id = setInterval(() => {
+        link.textContent = real.split('').map((c, i) =>
+          c === ' ' ? ' ' : (i < frame / 2 ? real[i] : scrambleChars[Math.floor(Math.random() * scrambleChars.length)])
+        ).join('');
+        if (frame++ / 2 >= real.length) { clearInterval(id); link.textContent = real; busy = false; }
+      }, 26);
+    });
+  });
+}
+
+
+// ===== v9: motion in Axel's house style (Lenis smooth scroll + word/image reveals) =====
+// Smooth scroll, matching awwebdesign.be / crombruggen.be.
+if (window.Lenis && !motionPreference.matches) {
+  document.documentElement.style.scrollBehavior = 'auto';
+  const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+  const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id === '#') { e.preventDefault(); lenis.scrollTo(0); return; }
+      if (id.length > 1) { const t = document.querySelector(id); if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: -90 }); } }
+    });
+  });
+}
+
+// Word-by-word heading reveal (the "over-word" move from crombruggen.be).
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  const heads = document.querySelectorAll('.section-heading h2, .about-copy h2, .footer-invitation h2');
+  const wrap = el => {
+    const walk = node => {
+      [...node.childNodes].forEach(child => {
+        if (child.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(tok => {
+            if (tok === '') return;
+            if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+            const w = document.createElement('i');
+            w.className = 'rw';
+            w.textContent = tok;
+            frag.appendChild(w);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === 1 && child.tagName !== 'BR') {
+          walk(child);
+        }
+      });
+    };
+    walk(el);
+    el.querySelectorAll('.rw').forEach((w, i) => { w.style.transitionDelay = (i * 60) + 'ms'; });
+    el.classList.add('heading-rw');
+  };
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.3 });
+  heads.forEach(h => { wrap(h); io.observe(h); });
+})();
+
+// Picture reveal: treatment photos wipe up as the deck enters (mask feel).
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  const deck = document.querySelector('.treatment-deck');
+  if (!deck) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { deck.classList.add('in'); io.disconnect(); } });
+  }, { threshold: 0.2 });
+  io.observe(deck);
+})();
