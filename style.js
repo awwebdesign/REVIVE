@@ -1,26 +1,36 @@
-const menu = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.nav');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const easeOut = 'cubic-bezier(0.23, 1, 0.32, 1)';
-function closeMenu(instant = false) {
-  nav.classList.toggle('instant', instant);
-  menu.setAttribute('aria-expanded', 'false');
-  menu.setAttribute('aria-label', 'Menu openen');
-  nav.classList.remove('is-open');
-}
-menu.addEventListener('click', event => {
-  const open = menu.getAttribute('aria-expanded') !== 'true';
-  nav.classList.toggle('instant', event.detail === 0);
-  menu.setAttribute('aria-expanded', String(open));
-  menu.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
-  nav.classList.toggle('is-open', open);
-});
-nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeMenu()));
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') {
-    closeMenu(true); menu.focus();
+
+// ===== Navbar 05 (mono line): scroll-hairline + mobile/tablet drawer =====
+const rvNav = document.getElementById('rv-nav');
+if (rvNav) {
+  const onNavScroll = () => rvNav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onNavScroll, {passive:true});
+  onNavScroll();
+  // Robust trigger independent of Lenis smooth-scroll: watch a sentinel 40px down.
+  if ('IntersectionObserver' in window) {
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    sentinel.style.cssText = 'position:absolute;top:40px;left:0;width:1px;height:1px;pointer-events:none';
+    document.body.prepend(sentinel);
+    new IntersectionObserver(([e]) => rvNav.classList.toggle('scrolled', !e.isIntersecting), {threshold:0}).observe(sentinel);
   }
-});
+}
+const rvToggle = document.querySelector('.rv-toggle');
+const rvDrawer = document.getElementById('rv-drawer');
+if (rvToggle && rvDrawer) {
+  const setMenu = open => {
+    rvToggle.setAttribute('aria-expanded', String(open));
+    rvToggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+    rvDrawer.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  rvToggle.addEventListener('click', () => setMenu(rvToggle.getAttribute('aria-expanded') !== 'true'));
+  rvDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && rvToggle.getAttribute('aria-expanded') === 'true') { setMenu(false); rvToggle.focus(); }
+  });
+}
 // Reveal copy automatically as it enters the viewport, once per visit.
 document.querySelectorAll('.section-heading, .about-copy, .footer-invitation').forEach(el => el.classList.remove('reveal'));
 document.querySelectorAll('.practice-note p, .section-heading p, .about-copy > p, .footer-invitation p, .footer-details > div').forEach((el, i) => {
@@ -40,25 +50,6 @@ if ('IntersectionObserver' in window) {
   });
 }
 
-// Direction changes accumulate past a small threshold to prevent scroll jitter.
-const header = document.querySelector('.header');
-let lastScrollY = window.scrollY, travel = 0, previousDirection = 0;
-function updateHeader() {
-  const y = Math.max(0, window.scrollY), delta = y - lastScrollY;
-  lastScrollY = y;
-  const direction = Math.sign(delta);
-  if (direction !== previousDirection) travel = 0;
-  travel += delta; previousDirection = direction;
-  if (y < 130 || menu.getAttribute('aria-expanded') === 'true') {
-    header.classList.remove('is-hidden'); return;
-  }
-  if (Math.abs(travel) < 10) return;
-  header.classList.toggle('is-hidden', direction > 0);
-}
-window.addEventListener('scroll', updateHeader, {passive:true});
-updateHeader();
-header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
-menu.addEventListener('click', () => header.classList.remove('is-hidden'));
 
 // (treatments tab-stage removed in v8: replaced by static card deck)
 
@@ -115,27 +106,6 @@ new ResizeObserver(() => { groupWidth = reviewGroup.getBoundingClientRect().widt
 motionPreference.addEventListener('change', updateReviews);
 document.addEventListener('visibilitychange', updateReviews);
 updateReviews();
-
-
-// Navbar C: nav labels scramble briefly on hover (desktop pointers, motion allowed).
-if (!motionPreference.matches && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#*/';
-  document.querySelectorAll('.nav a').forEach(link => {
-    const real = link.textContent;
-    let busy = false;
-    link.addEventListener('mouseenter', () => {
-      if (busy) return;
-      busy = true;
-      let frame = 0;
-      const id = setInterval(() => {
-        link.textContent = real.split('').map((c, i) =>
-          c === ' ' ? ' ' : (i < frame / 2 ? real[i] : scrambleChars[Math.floor(Math.random() * scrambleChars.length)])
-        ).join('');
-        if (frame++ / 2 >= real.length) { clearInterval(id); link.textContent = real; busy = false; }
-      }, 26);
-    });
-  });
-}
 
 
 // ===== v9: motion in Axel's house style (Lenis smooth scroll + word/image reveals) =====
