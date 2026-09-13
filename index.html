@@ -8,23 +8,33 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23101110'/%3E%3Ctext x='9' y='30' font-family='Arial' font-weight='bold' font-size='29' fill='%23a98242'%3ER%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Grenze+Gotisch:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 <a class="skip" href="#main">Naar inhoud</a>
-<header class="header"><div class="shell nav-shell">
-  <a class="brand" href="#" aria-label="Revive · naar boven"><img src="assets/header-mark.png" alt="Revive Massage & Coaching" width="903" height="269"></a>
-  <nav class="nav" id="navigation" aria-label="Hoofdnavigatie"><a class="nav-treatment" href="#behandelingen">Behandelingen</a><a href="#glenn">Over Glenn</a><a href="#contact">Contact</a><a class="button nav-book" href="https://booking.optios.net/21985/activities">Boek je afspraak</a></nav>
-  <a class="button button-small header-book" href="https://booking.optios.net/21985/activities">Boek je afspraak </a>
-  <button class="menu-toggle" aria-expanded="false" aria-controls="navigation" aria-label="Menu openen"><span></span><span></span></button>
+<header class="rv-nav" id="rv-nav"><div class="rv-nav-inner shell">
+  <a class="rv-brand" href="#" aria-label="Revive · naar boven"><img src="assets/header-mark.png" alt="Revive Massage & Coaching" width="903" height="269"></a>
+  <nav class="rv-links" id="navigation" aria-label="Hoofdnavigatie"><a href="#behandelingen">Behandelingen</a><a href="#glenn">Over Glenn</a><a href="#contact">Contact</a></nav>
+  <a class="rv-pill" href="https://booking.optios.net/21985/activities">Boek je afspraak<span class="ar" aria-hidden="true">→</span></a>
+  <a class="rv-pill rv-pill-compact" href="https://booking.optios.net/21985/activities">Boek<span class="ar" aria-hidden="true">→</span></a>
+  <button class="rv-toggle" aria-expanded="false" aria-controls="rv-drawer" aria-label="Menu openen"><span class="bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
 </div></header>
+<div class="rv-drawer" id="rv-drawer">
+  <a class="d-link" href="#behandelingen"><span class="i">01</span>Behandelingen</a>
+  <a class="d-link" href="#glenn"><span class="i">02</span>Over Glenn</a>
+  <a class="d-link" href="#contact"><span class="i">03</span>Contact</a>
+  <div class="d-foot">
+    <a class="btn" href="https://booking.optios.net/21985/activities">Boek je afspraak<span class="ar" aria-hidden="true">→</span><i class="tk a"></i><i class="tk b"></i><i class="tk c"></i><i class="tk d"></i></a>
+    <span class="meta">Lemanstraat 16<br>Sint-Katelijne-Waver</span>
+  </div>
+</div>
 <main id="main">
 <section class="hero" aria-labelledby="hero-title">
   <h1 id="hero-title" class="sr-only">Revive Massage &amp; Coaching in Sint-Katelijne-Waver. Sportmassage, deep tissue en cupping bij Glenn. Unlock your full potential.</h1>
   <div class="hero-visual" aria-hidden="true"><div class="hero-photo"><img src="assets/treatment.avif" alt="" width="882" height="564" fetchpriority="high"></div><div class="photo-shade"></div></div>
   <div class="shell hero-layout">
     <img class="hero-mark" src="assets/hero-lockup.webp?v=3" alt="Revive · Massage &amp; Coaching · Unlock your full potential" width="1822" height="724" fetchpriority="high">
-    <a class="button hero-cta" href="https://booking.optios.net/21985/activities">Boek je afspraak </a>
+    <a class="btn" href="https://booking.optios.net/21985/activities">Boek je afspraak<span class="ar" aria-hidden="true">→</span><i class="tk a"></i><i class="tk b"></i><i class="tk c"></i><i class="tk d"></i></a>
   </div>
 </section>
 <div class="practice-note shell"><p>Voor de sporter. De harde werker.<br><span>En iedereen die even vastzit.</span></p><a href="https://booking.optios.net/21985/last-minutes">Eerder op de behandeltafel?<br><span>Bekijk last-minute plekjes </span></a></div>
@@ -34,7 +44,7 @@
 </section>
 <section class="about section" id="glenn" aria-labelledby="about-title"><div class="shell about-grid">
   <div class="about-photo reveal"><img src="assets/glenn.avif" alt="Glenn Versteeven, de massagetherapeut achter Revive" width="561" height="798" loading="lazy"><div class="nameplate"><strong>GLENN VERSTEEVEN</strong><span>Jouw massagetherapeut</span></div></div>
-  <div class="about-copy reveal"><h2 id="about-title">Glenn.<br><span>Sport zit erin.</span></h2><p class="large-copy">En dat neem ik mee naar de behandeltafel.</p><p>Sport is al van jongs af aan een rode draad in mijn leven. Van judo en atletiek tot thaiboksen en bodybuilding. Ik weet hoe het voelt om veel van je lichaam te vragen.</p><p>Die passie neem ik mee naar de behandeltafel. Als sportmasseur en coach kijk ik naar jouw verhaal, jouw belasting en wat jij weer wilt kunnen doen.</p><div class="about-signoff"><span class="signature">Glenn.</span><span>Massage & coaching<br>Sint-Katelijne-Waver</span></div><a class="button button-outline" href="https://booking.optios.net/21985/activities">Boek je afspraak bij Glenn </a></div>
+  <div class="about-copy reveal"><h2 id="about-title">Glenn.<br><span>Sport zit erin.</span></h2><p class="large-copy">En dat neem ik mee naar de behandeltafel.</p><p>Sport is al van jongs af aan een rode draad in mijn leven. Van judo en atletiek tot thaiboksen en bodybuilding. Ik weet hoe het voelt om veel van je lichaam te vragen.</p><p>Die passie neem ik mee naar de behandeltafel. Als sportmasseur en coach kijk ik naar jouw verhaal, jouw belasting en wat jij weer wilt kunnen doen.</p><div class="about-signoff"><span class="signature">Glenn.</span><span>Massage & coaching<br>Sint-Katelijne-Waver</span></div><a class="btn ghost" href="https://booking.optios.net/21985/activities">Boek je afspraak bij Glenn<span class="ar" aria-hidden="true">→</span><i class="tk a"></i><i class="tk b"></i><i class="tk c"></i><i class="tk d"></i></a></div>
 </div></section>
 <section class="reviews section" id="reviews" aria-labelledby="reviews-title">
 <div class="shell"><div class="section-heading reveal"><div><h2 id="reviews-title">Zij voelen<br>het <span>verschil.</span></h2></div><div class="review-overview"><div class="review-average">4,9<span>/5</span></div><div><span class="stars" aria-label="4,9 van 5 sterren">★★★★★</span><p>4,9 gemiddeld uit alle 47 Google-reviews</p><a class="text-link" href="https://www.google.com/search?q=revive+sportsmassage" target="_blank" rel="noopener noreferrer">Lees alle reviews </a></div></div></div></div>
@@ -49,6 +59,6 @@
 </footer>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
-<script src="style.js?v=9"></script>
+<script src="style.js?v=10"></script>
 </body></html>
 
