@@ -105,7 +105,7 @@ const base = 'http://127.0.0.1:8392';
   assert.equal(await fallback.locator('.faq-list details[open]').count(), 1);
   assert.equal(await fallback.locator('.faq-answer').first().isVisible(), false);
   assert.equal(await fallback.locator('.faq-answer').nth(1).isVisible(), true);
-  assert.equal(await fallback.locator('.footer-legal a[href="/privacybeleid/"]').isVisible(), true);
+  assert.equal(await fallback.locator('.footer-legal a[href="./privacybeleid/"]').isVisible(), true);
   const original = await context.request.get(base + '/algemene-voorwaarden');
   assert.equal(original.status(), 200);
   const missing = await context.request.get(base + '/this-page-does-not-exist');

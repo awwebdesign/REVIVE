@@ -1,5 +1,9 @@
 import { readFile, writeFile, mkdir, cp } from 'node:fs/promises';
 
+// The 404 document can be served at any depth, so it needs a fixed site root.
+// Normal pages use relative paths and work at both / and /REVIVE/.
+const errorBase = process.argv.find(arg => arg.startsWith('--base-path='))?.slice('--base-path='.length) || '/REVIVE/';
+if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(errorBase)) throw new Error('Use a base path such as / or /REVIVE/.');
 const home = await readFile('index.html', 'utf8');
 const pages = [
   ['algemene-voorwaarden', 'Algemene voorwaarden', 'De algemene voorwaarden voor afspraken, behandelingen en betalingen bij Revive Massage Therapie.'],
@@ -8,13 +12,14 @@ const pages = [
 ];
 const navigation = current => pages.map(([slug, title]) => `<a href="/${slug}/"${slug === current ? ' aria-current="page"' : ''}>${title}</a>`).join('');
 const header = home.slice(home.indexOf('<a class="skip"'), home.indexOf('<main id="main"'))
+  .replace(/\b(href|src)="\.\//g, '$1="/')
   .replaceAll('href="#behandelingen"', 'href="/#behandelingen"').replaceAll('href="#glenn"', 'href="/#glenn"').replaceAll('href="#contact"', 'href="/#contact"')
   .replace('href="#" aria-label="Revive · naar boven"', 'href="/" aria-label="Revive · naar de homepage"');
 const footer = current => `<footer class="legal-footer">
 <div class="shell legal-contact"><div><p><strong>Revive Massage &amp; Coaching</strong></p><p>Lemanstraat 16 · 2860 Sint-Katelijne-Waver</p><p>Ondernemingsnr. 0787.390.768</p></div><p><a href="mailto:reservaties@revive-massagetherapie.be">reservaties@revive-massagetherapie.be</a></p></div>
 <div class="footer-legal"><div class="shell"><span>© <span data-year>2026</span> Revive Massage &amp; Coaching</span><nav class="legal-links" aria-label="Juridische informatie">${navigation(current)}</nav><a class="design-credit" href="https://awwebdesign.be/" target="_blank" rel="noopener noreferrer">Designed by AW WEBDESIGN</a></div></div></footer>`;
 function document(title, description, path, main, current = '') {
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="nl-BE"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} · Revive Massage &amp; Coaching</title><meta name="description" content="${description}">
@@ -28,6 +33,8 @@ ${path === '/404.html' ? '' : `<link rel="canonical" href="https://www.revive-ma
 <link rel="stylesheet" href="/assets/fonts/fonts.css"><link rel="stylesheet" href="/style.css?v=14"><link rel="stylesheet" href="/launch.css?v=1">
 </head><body class="legal-page">${header}${main}${footer(current)}
 <script src="/assets/vendor/lenis.min.js" defer></script><script src="/style.js?v=13" defer></script></body></html>\n`;
+  const prefix = path === '/404.html' ? errorBase : '../';
+  return html.replace(/\b(href|src)="\/(?!\/)/g, `$1="${prefix}`);
 }
 for (const [slug, title, description] of pages) {
   const content = await readFile(`content/${slug}.html`, 'utf8');

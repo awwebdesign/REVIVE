@@ -1,0 +1,5 @@
+/REVIVE/: CSS, fonts, images, JS, links and layout OK
+/REVIVE/algemene-voorwaarden/: CSS, fonts, images, JS, links and layout OK
+/REVIVE/privacybeleid/: CSS, fonts, images, JS, links and layout OK
+/REVIVE/cookiebeleid/: CSS, fonts, images, JS, links and layout OK
+Nested 404 styled correctly; homepage link OK. No asset requests escaped /REVIVE/.

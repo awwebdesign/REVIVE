@@ -6,7 +6,13 @@ De goedgekeurde vormgeving is behouden. De website bestaat uit gewone HTML, CSS,
 
 Gebruik **revive-upload.zip** of de inhoud van **dist/**. Pak de ZIP rechtstreeks uit in de publieke webmap van het domein, bijvoorbeeld `public_html`. De homepage `index.html` moet direct in die map staan, niet in een extra `dist`-map. Upload de bronmap met `scripts`, `content`, `qa` en dit document niet.
 
-De productie-URL staat ingesteld op **https://www.revive-massagetherapie.be/**. Laat de hostingprovider HTTPS inschakelen en HTTP en het domein zonder `www` naar deze URL doorsturen. Wijzig bij een ander domein ook de canonical-links, social metadata, structured data, sitemap en robots.txt. De site verwacht installatie op de hoofddirectory van het domein.
+De productie-URL in de SEO-gegevens staat ingesteld op **https://www.revive-massagetherapie.be/**. Laat de hostingprovider HTTPS inschakelen en HTTP en het domein zonder `www` naar deze URL doorsturen. Wijzig bij een ander productiedomein ook de canonical-links, social metadata, structured data, sitemap en robots.txt. De homepage en juridische pagina’s gebruiken relatieve bestands- en navigatiepaden, zodat ze ook onder `/REVIVE/` werken.
+
+### GitHub Pages
+
+Voor **https://awwebdesign.github.io/REVIVE/**: upload de inhoud van `dist/` of de uitgepakte `revive-upload.zip` rechtstreeks naar de ingestelde publicatiemap. `index.html`, `style.css`, `launch.css`, `style.js`, de map `assets` en de juridische paginamappen horen naast elkaar te staan. Upload niet alleen de HTML of de ZIP als bestand.
+
+`node scripts/build.mjs` behoudt de relatieve paden en maakt standaard een 404-pagina met `/REVIVE/`-paden. Bouw vóór plaatsing op het eigen domein met `node scripts/build.mjs --base-path=/` en maak de upload-ZIP opnieuw. Dit argument wijzigt de vaste paden van de 404-pagina; normale pagina’s werken op beide locaties. Er zijn geen GitHub-instellingen of bestanden online gewijzigd.
 
 De ZIP bevat `.htaccess` voor Apache en `_headers` voor hosts die dit formaat ondersteunen. Zorg dat `.htaccess` wordt meegeüpload. Ze bevatten beveiligingsheaders; Apache krijgt ook compressie, caching en een eigen 404-pagina. Bij andere hosting moet de provider deze instellingen en de 404-pagina overnemen. De website heeft echte mappen voor de juridische pagina’s en heeft geen SPA-rewrite nodig.
 
