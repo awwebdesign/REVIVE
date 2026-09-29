@@ -85,20 +85,81 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-// Progressive enhancement: content is readable before observers or animations run.
+// Restore the original curtain, word and staggered scroll reveals. Content stays
+// readable until an animation starts; failed scripts never leave a hidden page.
+const revealAnimations = new Set();
+const syncMotion = () => {
+  document.documentElement.classList.toggle('restored-motion', !motionPreference.matches);
+  if (motionPreference.matches) {
+    revealAnimations.forEach(animation => animation.cancel());
+    revealAnimations.clear();
+  }
+};
+syncMotion();
+motionPreference.addEventListener('change', syncMotion);
+
+function playReveal(element, frames, duration = 700, delay = 0) {
+  if (motionPreference.matches || !element.animate) return;
+  const animation = element.animate(frames, { duration, delay, easing: easeOut, fill: 'backwards' });
+  revealAnimations.add(animation);
+  animation.finished.then(() => revealAnimations.delete(animation), () => revealAnimations.delete(animation));
+}
+
 if ('IntersectionObserver' in window) {
+  const headings = document.querySelectorAll('main section h2, .footer-invitation h2');
+  headings.forEach(heading => {
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const fragment = document.createDocumentFragment();
+      for (const part of node.textContent.match(/\S+|\s+/g) || []) {
+        if (/^\s+$/.test(part)) fragment.append(document.createTextNode(part));
+        else {
+          const word = document.createElement('i');
+          word.className = 'rw';
+          word.textContent = part;
+          fragment.append(word);
+        }
+      }
+      node.replaceWith(fragment);
+    });
+    heading.classList.add('heading-rw');
+  });
+
+  const targets = new Set(headings);
+  document.querySelectorAll('.section-heading > p, .practice-note > *, .about-copy > p, .about-signoff, .about-copy > .btn, .review-overview, .review-viewport, .footer-details > div, .footer-book, .first-visit, .t-card, .about-photo, .footer-wordmark').forEach(element => targets.add(element));
   const observer = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      observer.unobserve(entry.target);
-      if (!motionPreference.matches) entry.target.animate(
-        [{ opacity: 0.35, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
-        { duration: 650, easing: easeOut }
-      );
+    for (const { target, isIntersecting } of entries) {
+      if (!isIntersecting) continue;
+      observer.unobserve(target);
+      target.dataset.revealed = 'true';
+      if (motionPreference.matches) continue;
+      if (target.classList.contains('heading-rw')) {
+        target.querySelectorAll('.rw').forEach((word, index) => playReveal(word,
+          [{ opacity: 0, transform: 'translateY(.5em)' }, { opacity: 1, transform: 'translateY(0)' }], 720, index * 70));
+      } else if (target.matches('.about-photo, .footer-wordmark')) {
+        playReveal(target, [{ clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0)' }], 950);
+      } else if (target.matches('.t-card')) {
+        const delay = window.matchMedia('(min-width: 761px)').matches ? [...target.parentElement.children].indexOf(target) * 120 : 0;
+        playReveal(target, [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0)' }], 700, delay);
+        playReveal(target.querySelector('img'),
+          [{ clipPath: 'inset(0 0 100% 0)', transform: 'scale(1.14)' }, { clipPath: 'inset(0)', transform: 'scale(1)' }], 900, delay);
+      } else {
+        playReveal(target, [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'translateY(0)' }]);
+      }
     }
   }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal, .practice-note p, .about-copy > p').forEach(element => observer.observe(element));
+  targets.forEach(target => observer.observe(target));
 }
+
+// Reveal focused content immediately rather than animating keyboard navigation.
+document.addEventListener('focusin', event => {
+  revealAnimations.forEach(animation => {
+    const target = animation.effect?.target;
+    if (target && (target.contains(event.target) || event.target.contains(target))) animation.cancel();
+  });
+});
 
 // Reviews slide automatically and remain natively scrollable.
 const reviewViewport = document.querySelector('.review-viewport');

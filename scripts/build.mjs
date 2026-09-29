@@ -30,9 +30,9 @@ ${path === '/404.html' ? '' : `<link rel="canonical" href="https://www.revive-ma
 <meta property="og:title" content="${title} · Revive"><meta property="og:description" content="${description}"><meta property="og:url" content="https://www.revive-massagetherapie.be${path}">
 <meta property="og:image" content="https://www.revive-massagetherapie.be/assets/social-preview.jpg"><meta property="og:image:alt" content="Revive Massage &amp; Coaching"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/assets/fonts/fonts.css"><link rel="stylesheet" href="/style.css?v=14"><link rel="stylesheet" href="/launch.css?v=1">
+<link rel="stylesheet" href="/assets/fonts/fonts.css"><link rel="stylesheet" href="/style.css?v=15"><link rel="stylesheet" href="/launch.css?v=7">
 </head><body class="legal-page">${header}${main}${footer(current)}
-<script src="/assets/vendor/lenis.min.js" defer></script><script src="/style.js?v=13" defer></script></body></html>\n`;
+<script src="/assets/vendor/lenis.min.js" defer></script><script src="/style.js?v=14" defer></script></body></html>\n`;
   const prefix = path === '/404.html' ? errorBase : '../';
   return html.replace(/\b(href|src)="\/(?!\/)/g, `$1="${prefix}`);
 }
