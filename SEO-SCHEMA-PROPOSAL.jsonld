@@ -1,0 +1,69 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.revive-massagetherapie.be/#practice",
+      "name": "Revive Massage & Coaching",
+      "url": "https://www.revive-massagetherapie.be/",
+      "image": "https://www.revive-massagetherapie.be/assets/social-preview.jpg",
+      "logo": "https://www.revive-massagetherapie.be/assets/header-mark.webp",
+      "email": "reservaties@revive-massagetherapie.be",
+      "taxID": "0787.390.768",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Lemanstraat 16",
+        "postalCode": "2860",
+        "addressLocality": "Sint-Katelijne-Waver",
+        "addressCountry": "BE"
+      },
+      "sameAs": [
+        "https://www.instagram.com/revive_massagetherapie/"
+      ],
+      "potentialAction": {
+        "@type": "ReserveAction",
+        "target": "https://booking.optios.net/21985/activities"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.revive-massagetherapie.be/#glenn-versteeven",
+      "name": "Glenn Versteeven",
+      "jobTitle": "Sportmasseur",
+      "url": "https://www.revive-massagetherapie.be/#glenn",
+      "worksFor": {
+        "@id": "https://www.revive-massagetherapie.be/#practice"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.revive-massagetherapie.be/#service-sportmassage",
+      "name": "Sportmassage",
+      "serviceType": "Sportmassage",
+      "url": "https://www.revive-massagetherapie.be/#behandelingen",
+      "provider": {
+        "@id": "https://www.revive-massagetherapie.be/#practice"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.revive-massagetherapie.be/#service-deep-tissue",
+      "name": "Deep tissue massage",
+      "serviceType": "Deep tissue massage",
+      "url": "https://www.revive-massagetherapie.be/#behandelingen",
+      "provider": {
+        "@id": "https://www.revive-massagetherapie.be/#practice"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.revive-massagetherapie.be/#service-cupping",
+      "name": "Cupping",
+      "serviceType": "Cupping",
+      "url": "https://www.revive-massagetherapie.be/#behandelingen",
+      "provider": {
+        "@id": "https://www.revive-massagetherapie.be/#practice"
+      }
+    }
+  ]
+}

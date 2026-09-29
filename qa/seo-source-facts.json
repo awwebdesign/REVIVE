@@ -1,0 +1,51 @@
+{
+  "title": "Revive · Sportmassage bij Glenn Versteeven",
+  "title_characters": 42,
+  "description": "Gerichte sportmassage, deep tissue en cupping bij Glenn in Sint-Katelijne-Waver. Bekijk de behandelingen en boek je afspraak bij Revive.",
+  "description_characters": 136,
+  "headings": [
+    {
+      "level": "1",
+      "text": "Revive Massage & Coaching in Sint-Katelijne-Waver. Sportmassage, deep tissue en cupping bij Glenn. Unlock your full potential."
+    },
+    {
+      "level": "2",
+      "text": "Waar zit het vast?"
+    },
+    {
+      "level": "2",
+      "text": "Glenn. Sport zit erin."
+    },
+    {
+      "level": "2",
+      "text": "Zij voelen het verschil."
+    },
+    {
+      "level": "2",
+      "text": "Jij plant het moment. Glenn maakt het verschil."
+    },
+    {
+      "level": "3",
+      "text": "Kom langs"
+    },
+    {
+      "level": "3",
+      "text": "Even overleggen?"
+    },
+    {
+      "level": "3",
+      "text": "Een gaatje in je agenda?"
+    }
+  ],
+  "main_words_including_reviews": 791,
+  "marketing_words_excluding_reviews_and_hidden_h1": 204,
+  "treatment_description_words": [
+    16,
+    13,
+    15
+  ],
+  "schema_types": [
+    "LocalBusiness"
+  ],
+  "links_to_optios": 11
+}

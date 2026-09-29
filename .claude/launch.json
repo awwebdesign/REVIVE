@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "revive",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8392"],
+      "port": 8392
+    }
+  ]
+}

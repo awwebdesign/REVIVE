@@ -1,0 +1,22 @@
+320px /: OK
+320px /algemene-voorwaarden/: OK
+320px /privacybeleid/: OK
+320px /cookiebeleid/: OK
+390px /: OK
+390px /algemene-voorwaarden/: OK
+390px /privacybeleid/: OK
+390px /cookiebeleid/: OK
+768px /: OK
+768px /algemene-voorwaarden/: OK
+768px /privacybeleid/: OK
+768px /cookiebeleid/: OK
+1024px /: OK
+1024px /algemene-voorwaarden/: OK
+1024px /privacybeleid/: OK
+1024px /cookiebeleid/: OK
+1440px /: OK
+1440px /algemene-voorwaarden/: OK
+1440px /privacybeleid/: OK
+1440px /cookiebeleid/: OK
+Internal links and anchors; original legal URL; 404; mobile menu; focus trap; Escape; breakpoint reset; automatic reviews; focus pause; reduced motion; no-JS fallback: OK
+Cookies and browser storage: none. Third-party requests: none. Browser errors: none.

@@ -1,0 +1,11 @@
+{
+  "name": "revive-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Revive Massage & Coaching website",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/serve.mjs",
+    "check": "node --check style.js"
+  }
+}
