@@ -11,14 +11,15 @@
 .first-visit li span { display: block; font-size: 14px; line-height: 1.8; color: var(--muted); }
 .massage-faq { padding-top: 72px; }
 .massage-faq .section-heading { align-items: end; }
-.massage-faq .section-heading h2 { font-family: var(--gothic); font-size: clamp(52px, 6vw, 90px); }
+.massage-faq .section-heading h2 { font-family: var(--gothic); font-size: clamp(58px, 6.6vw, 100px); }
 .massage-faq .section-heading > p { font-size: 17px; color: var(--white); }
 .faq-list { border-top: 1px solid var(--line); }
 .faq-list details { border-bottom: 1px solid var(--line); padding-inline: 24px; }
+.faq-list details + details { margin-top: 12px; }
 .faq-list details[open] { background: var(--panel); box-shadow: inset 3px 0 var(--gold-light); }
-.faq-list summary { position: relative; cursor: pointer; list-style: none; padding: 24px 48px 24px 0; font-size: 20px; font-weight: 400; line-height: 1.5; color: var(--white); }
+.faq-list summary { position: relative; cursor: pointer; list-style: none; padding: 28px 48px 28px 0; font-size: 20px; font-weight: 400; line-height: 1.5; color: var(--white); }
 .faq-list summary::-webkit-details-marker { display: none; }
-.faq-list summary::after { content: '+'; position: absolute; right: 4px; top: 20px; color: var(--gold-light); font-size: 26px; font-weight: 400; }
+.faq-list summary::after { content: '+'; position: absolute; right: 4px; top: 24px; color: var(--gold-light); font-size: 26px; font-weight: 400; }
 .faq-list details[open] summary::after { content: '−'; }
 .faq-list summary:hover, .faq-list details[open] summary { color: var(--gold-light); }
 .faq-answer { max-width: 72ch; padding: 0 48px 30px 0; font-size: 17px; line-height: 1.85; color: var(--white); overflow-wrap: anywhere; }
@@ -29,8 +30,8 @@
   .first-visit { margin-top: 32px; }
   .massage-faq { padding-top: 56px; }
   .faq-list details { padding-inline: 16px; }
-  .faq-list summary { font-size: 18px; padding-block: 22px; }
-  .faq-list summary::after { top: 20px; }
+  .faq-list summary { font-size: 18px; padding-block: 26px; }
+  .faq-list summary::after { top: 24px; }
   .faq-answer { padding-right: 0; font-size: 16px; }
 }
 [hidden] { display: none !important; }
