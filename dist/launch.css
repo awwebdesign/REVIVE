@@ -1,4 +1,38 @@
 /* Launch refinements shared by the approved homepage and legal pages. */
+.faq-answer a { color: var(--gold-light); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.faq-answer a:hover { color: var(--white); }
+.t-card { scroll-margin-top: 130px; }
+.first-visit { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 30px; }
+.first-visit h3 { font: 600 28px/1.2 var(--gothic); color: var(--gold-light); margin: 0 0 28px; }
+.first-visit ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; list-style: none; padding: 0; margin: 0; counter-reset: visit; }
+.first-visit li { counter-increment: visit; position: relative; padding-left: 32px; }
+.first-visit li::before { content: '0' counter(visit); position: absolute; top: 3px; left: 0; color: var(--gold-light); font-size: 12px; }
+.first-visit strong { display: block; font-size: 16px; font-weight: 500; margin-bottom: 8px; }
+.first-visit li span { display: block; font-size: 14px; line-height: 1.8; color: var(--muted); }
+.massage-faq { padding-top: 72px; }
+.massage-faq .section-heading { align-items: end; }
+.massage-faq .section-heading h2 { font-family: var(--gothic); font-size: clamp(52px, 6vw, 90px); }
+.massage-faq .section-heading > p { font-size: 17px; color: var(--white); }
+.faq-list { border-top: 1px solid var(--line); }
+.faq-list details { border-bottom: 1px solid var(--line); padding-inline: 24px; }
+.faq-list details[open] { background: var(--panel); box-shadow: inset 3px 0 var(--gold-light); }
+.faq-list summary { position: relative; cursor: pointer; list-style: none; padding: 24px 48px 24px 0; font-size: 20px; font-weight: 400; line-height: 1.5; color: var(--white); }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: '+'; position: absolute; right: 4px; top: 20px; color: var(--gold-light); font-size: 26px; font-weight: 400; }
+.faq-list details[open] summary::after { content: '−'; }
+.faq-list summary:hover, .faq-list details[open] summary { color: var(--gold-light); }
+.faq-answer { max-width: 72ch; padding: 0 48px 30px 0; font-size: 17px; line-height: 1.85; color: var(--white); overflow-wrap: anywhere; }
+.faq-answer strong { color: var(--gold-light); font-weight: 600; }
+.faq-answer p { margin: 0; }
+@media (max-width: 760px) {
+  .first-visit ol { grid-template-columns: 1fr; gap: 24px; }
+  .first-visit { margin-top: 32px; }
+  .massage-faq { padding-top: 56px; }
+  .faq-list details { padding-inline: 16px; }
+  .faq-list summary { font-size: 18px; padding-block: 22px; }
+  .faq-list summary::after { top: 20px; }
+  .faq-answer { padding-right: 0; font-size: 16px; }
+}
 [hidden] { display: none !important; }
 .menu-open { overflow: hidden; }
 .menu-open .rv-nav { z-index: 70; }

@@ -18,5 +18,6 @@
 1440px /algemene-voorwaarden/: OK
 1440px /privacybeleid/: OK
 1440px /cookiebeleid/: OK
+Original homepage restored; first-visit steps; treatment booking links; FAQ keyboard and no-JS operation: OK
 Internal links and anchors; original legal URL; 404; mobile menu; focus trap; Escape; breakpoint reset; automatic reviews; focus pause; reduced motion; no-JS fallback: OK
 Cookies and browser storage: none. Third-party requests: none. Browser errors: none.

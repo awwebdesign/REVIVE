@@ -1,3 +1,15 @@
+# Actuele oplevering
+
+Op verzoek van Axel zijn alleen de FAQ en “Jouw eerste afspraak” behouden. De overige toevoegingen uit de SEO-implementatie zijn teruggedraaid, inclusief de hero-kop, introductie, langere behandelteksten en uitgebreide metadata/schema. De FAQ heeft grotere, helderdere tekst en gouden accenten. De onderstaande audit en eerdere implementatiestatus zijn historische notities.
+
+---
+
+# Implementatiestatus — 29 september 2026
+
+De aanbevolen feitelijke homepage-informatie, FAQ-antwoorden, lokale zichtbare kop en gekoppelde structured data zijn toegevoegd. De gebruiker heeft gekozen voor één homepage zonder aparte behandelingspagina’s. Onderstaand rapport en de scores beschrijven de eerdere situatie. AI-vermeldingen zijn niet gemeten; er zijn geen externe profielen of crawlerinstellingen op de productiehost gewijzigd.
+
+---
+
 # Revive: AI-search / GEO readiness
 
 29 September 2026. Assessment of the finished local website. Recommendations only; no website changes made. Search-engine and AI-answer visibility of this unpublished version cannot yet be measured.

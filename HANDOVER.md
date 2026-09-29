@@ -14,7 +14,7 @@ Maak vóór vervanging een backup van de bestaande website. Behoud de DNS-record
 
 ## Pagina’s en inhoud
 
-- `/`: goedgekeurde homepage, met alle drie de juridische links in de footer.
+- `/`: goedgekeurde homepage, met drie oorspronkelijke behandelingen, eerste-afspraak-uitleg, veelgestelde vragen en alle drie de juridische links in de footer. Op verzoek zijn geen aparte behandelingspagina’s toegevoegd; de kaarten blijven naar de boekingsagenda linken.
 - `/algemene-voorwaarden/`: de 17 bepalingen van de bestaande website.
 - `/privacybeleid/`: bestaande privacytekst, opgesplitst in leesbare secties. Beide verwijzingen naar Bosbeekweg 9 zijn op aanwijzing van Axel vervangen door Lemanstraat 16. Het bestaande contact-e-mailadres is toegevoegd.
 - `/cookiebeleid/`: nieuw beleid voor de concrete website zonder trackingcookies.
@@ -43,6 +43,7 @@ Activeert de hostingprovider later analytics, tracking, beveiligingscookies of e
 - Pas homepage, contactgegevens en reviewselectie aan in `index.html`.
 - Bewerk juridische teksten in `content/algemene-voorwaarden.html`, `content/privacybeleid.html` en `content/cookiebeleid.html`.
 - `style.css` bevat de bestaande vormgeving; `launch.css` de gerichte afwerking en juridische layouts.
+- Op verzoek zijn alleen de FAQ en “Jouw eerste afspraak” als nieuwe inhoud behouden in `index.html`. De FAQ-stijlen staan bovenaan `launch.css`: grotere tekst, hoger contrast en gouden accenten. De oorspronkelijke hero, behandelteksten, metadata en LocalBusiness-schema zijn hersteld.
 - `style.js` regelt navigatie, animaties en de reviewcarrousel.
 - Voer na wijzigingen `node scripts/build.mjs` uit. Dit genereert de juridische pagina’s, sitemap en `dist/` opnieuw. Zorg dat adreswijzigingen ook in de gezamenlijke footer in `scripts/build.mjs` en structured data worden doorgevoerd.
 - Start een lokale preview met `node scripts/serve.mjs` en open http://127.0.0.1:8392.
@@ -55,3 +56,11 @@ Activeert de hostingprovider later analytics, tracking, beveiligingscookies of e
 Browsercontroles staan in `qa/results.txt`; toegankelijkheidsresultaten in `qa/accessibility.json`. Er zijn controles uitgevoerd op 320, 390, 768, 1024 en 1440 pixels breed, interne links, afbeeldingen, menufocus, Escape, wisselen van schermbreedte, pauzeren van reviews, verminderde beweging, browsen zonder JavaScript, opslag en verzoeken naar externe domeinen. Browser: Microsoft Edge/Chromium. Er is geen test op fysieke iOS/Android-apparaten uitgevoerd.
 
 De technische oplevering is voorbereid voor upload. Er is nog niets gepubliceerd en de productiehost/DNS/HTTPS-configuratie is niet gewijzigd of getest.
+
+## SEO en vindbaarheid na publicatie
+
+De homepage behoudt de oorspronkelijke hero, behandelteksten en basis-SEO. De nieuwe FAQ en eerste-afspraak-uitleg staan in de HTML en werken zonder JavaScript. De oorspronkelijke LocalBusiness-markup is behouden. De uitgebreidere SEO-implementatie is op verzoek teruggedraaid. De sitemap bevat uitsluitend de homepage en de drie juridische pagina’s.
+
+Na publicatie: verifieer het domein in Google Search Console en dien `https://www.revive-massagetherapie.be/sitemap.xml` in. Controleer met URL-inspectie of Google de homepage kan ophalen. Werk het bestaande Google Bedrijfsprofiel bij met dezelfde praktijknaam, het adres Lemanstraat 16, website, behandelingen en bevestigde uren. Deze externe accounts zijn niet gewijzigd.
+
+Meet zoekopdrachten en klikgedrag na indexering; rankings en AI-vermeldingen zijn niet gegarandeerd door technische optimalisatie. Het oudere `SEO-AUDIT.md` en `GEO-ANALYSIS.md` beschrijven de situatie vóór deze aanpassingen. De oorspronkelijk voorgestelde behandelingspagina’s zijn vervallen op verzoek van Axel. Websitegegevens zijn bruikbaar voor zoekmachines en AI-zoekdiensten via dezelfde toegankelijke HTML en structured data; zie [Google over AI-zoekfuncties](https://developers.google.com/search/docs/appearance/ai-features).

@@ -1,3 +1,15 @@
+# Actuele oplevering
+
+Op verzoek van Axel zijn alleen de FAQ en “Jouw eerste afspraak” behouden. De overige toevoegingen uit de SEO-implementatie zijn teruggedraaid, inclusief de hero-kop, introductie, langere behandelteksten en uitgebreide metadata/schema. De FAQ heeft grotere, helderdere tekst en gouden accenten. De onderstaande audit en eerdere implementatiestatus zijn historische notities.
+
+---
+
+# Implementatiestatus — 29 september 2026
+
+De homepage is bijgewerkt met een zichtbare lokale H1, natuurlijke massage- en hersteltermen, uitgebreidere behandelteksten, een eerste-afspraak-uitleg, zes FAQ-antwoorden, complete social metadata en een gekoppelde LocalBusiness/Person/Service/WebSite/WebPage-graph. Op verzoek van Axel blijft alles over behandelingen op de homepage; aparte behandelingspagina’s zijn niet toegevoegd. Bestaande boekingslinks en automatische reviews blijven behouden. Onderstaand rapport is de oorspronkelijke audit vóór implementatie; de scores zijn geen nieuwe meting. Zie `HANDOVER.md` en `qa/results.txt` voor oplevering en verificatie.
+
+---
+
 # Revive: SEO audit and proposed additions
 
 Audited 29 September 2026. Scope: the finished local homepage in `index.html`, its delivered assets, metadata, sitemap, robots.txt and existing structured data. The public domain still shows the old website. Search observations therefore describe the existing public presence, not rankings earned by the new design. No production code was changed during this audit.
