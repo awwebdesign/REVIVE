@@ -30,9 +30,9 @@ ${path === '/404.html' ? '' : `<link rel="canonical" href="https://www.revive-ma
 <meta property="og:title" content="${title} · Revive"><meta property="og:description" content="${description}"><meta property="og:url" content="https://www.revive-massagetherapie.be${path}">
 <meta property="og:image" content="https://www.revive-massagetherapie.be/assets/social-preview.jpg"><meta property="og:image:alt" content="Revive Massage &amp; Coaching"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/assets/fonts/fonts.css"><link rel="stylesheet" href="/style.css?v=15"><link rel="stylesheet" href="/launch.css?v=11">
+<link rel="stylesheet" href="/assets/fonts/fonts.css"><link rel="stylesheet" href="/style.css?v=15"><link rel="stylesheet" href="/launch.css?v=13">
 </head><body class="legal-page">${header}${main}${footer(current)}
-<script src="/assets/vendor/lenis.min.js" defer></script><script src="/style.js?v=16" defer></script></body></html>\n`;
+<script src="/assets/vendor/lenis.min.js" defer></script><script src="/style.js?v=18" defer></script></body></html>\n`;
   const prefix = path === '/404.html' ? errorBase : '../';
   return html.replace(/\b(href|src)="\/(?!\/)/g, `$1="${prefix}`);
 }
@@ -47,5 +47,5 @@ await writeFile('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset 
 await mkdir('dist', { recursive: true });
 for (const path of ['index.html', 'style.css', 'launch.css', 'style.js', '404.html', 'robots.txt', 'sitemap.xml', '.htaccess', '_headers', ...pages.map(([slug]) => slug)]) await cp(path, `dist/${path}`, { recursive: true });
 await mkdir('dist/assets', { recursive: true });
-for (const path of ['fonts', 'vendor', 'favicon.svg', 'apple-touch-icon.png', 'social-preview.jpg', 'header-mark.webp', 'footer-logo.webp', 'hero-lockup.webp', 'treatment.avif', 'deep-tissue.avif', 'cupping.avif', 'glenn.avif']) await cp(`assets/${path}`, `dist/assets/${path}`, { recursive: true });
+for (const path of ['fonts', 'vendor', 'favicon.svg', 'apple-touch-icon.png', 'social-preview.jpg', 'header-mark.webp', 'footer-logo.webp', 'hero-lockup.webp', 'footer-logo-hq.svg', 'hero-lockup-hq.svg', 'treatment.avif', 'deep-tissue.avif', 'cupping.avif', 'glenn.avif']) await cp(`assets/${path}`, `dist/assets/${path}`, { recursive: true });
 console.log('Built homepage, 3 legal pages, 404 page and upload folder: dist/');

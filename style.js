@@ -93,6 +93,23 @@ const syncMotion = () => {
 syncMotion();
 motionPreference.addEventListener('change', syncMotion);
 
+// One shared start preserves the mobile logo/button choreography at every width.
+const heroMark = document.querySelector('.hero-mark');
+const heroLayout = heroMark?.closest('.hero-layout');
+if (heroLayout) {
+  heroLayout.dataset.heroReveal = 'pending';
+  const imageReady = heroMark.decode ? heroMark.decode() : new Promise(resolve => {
+    if (heroMark.complete) resolve();
+    else {
+      heroMark.addEventListener('load', resolve, { once: true });
+      heroMark.addEventListener('error', resolve, { once: true });
+    }
+  });
+  Promise.allSettled([imageReady, document.fonts?.ready]).then(() => {
+    heroLayout.dataset.heroReveal = 'ready';
+  });
+}
+
 const revealTargets = [...document.querySelectorAll(
   'main:not(.legal-main) section h2, .footer-invitation h2, .section-heading > p, .practice-note > *, ' +
   '.about-copy > p, .about-signoff, .about-copy > .btn, .review-overview, .review-viewport, ' +

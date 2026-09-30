@@ -1,9 +1,12 @@
 /* Launch refinements shared by the approved homepage and legal pages. */
 /* Reconnect the original motion to the current hero and navigation markup. */
+.hero-layout > .hero-mark, .hero-layout > .btn { animation: none; }
+.hero-layout[data-hero-reveal="pending"] > .hero-mark,
+.hero-layout[data-hero-reveal="pending"] > .btn { opacity: 0; }
+.hero-layout[data-hero-reveal="ready"] > .hero-mark { animation: markReveal 1100ms 160ms var(--ease-in-out) both; }
+.hero-layout[data-hero-reveal="ready"] > .btn { animation: fade-up 850ms 420ms var(--ease-out) both; }
 @media (prefers-reduced-motion: no-preference) {
   .restored-motion .rv-nav-inner { animation: navIn 640ms 60ms var(--ease-out) both; }
-  .restored-motion .hero-mark { animation: markReveal 1100ms 160ms var(--ease-in-out) both; }
-  .restored-motion .hero-layout > .btn { animation: fade-up 850ms 420ms var(--ease-out) both; }
   .restored-motion .hero .hero-photo > img { animation: kenburns 16s var(--ease-in-out) both alternate infinite; }
 }
 .faq-answer a { color: var(--gold-light); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
@@ -124,7 +127,10 @@ p { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .hero-mark, .reveal, .text-reveal { animation: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .reveal, .text-reveal { animation: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .hero-mark { animation: none !important; transform: none !important; clip-path: none !important; }
+  .hero-layout[data-hero-reveal="ready"] > .hero-mark { animation: copy-fade 1100ms 160ms var(--ease-out-sine) both !important; }
+  .hero-layout[data-hero-reveal="ready"] > .btn { animation: copy-fade 850ms 420ms var(--ease-out-sine) both !important; }
 }
 @media print {
   .rv-nav, .rv-drawer, .legal-nav, .legal-back, .legal-footer, .skip { display: none !important; }
