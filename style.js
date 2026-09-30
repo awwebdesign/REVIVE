@@ -85,8 +85,8 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-// Restore the original curtain, word and staggered scroll reveals. Content stays
-// readable until an animation starts; failed scripts never leave a hidden page.
+// Fade each content block once as it enters the viewport. Off-screen content
+// remains readable without JavaScript or IntersectionObserver support.
 const revealAnimations = new Set();
 const syncMotion = () => {
   document.documentElement.classList.toggle('restored-motion', !motionPreference.matches);
@@ -98,63 +98,45 @@ const syncMotion = () => {
 syncMotion();
 motionPreference.addEventListener('change', syncMotion);
 
-function playReveal(element, frames, duration = 700, delay = 0) {
+function playReveal(element, delay = 0) {
   if (motionPreference.matches || !element.animate) return;
-  const animation = element.animate(frames, { duration, delay, easing: easeOut, fill: 'backwards' });
+  const animation = element.animate(
+    [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }],
+    { duration: 600, delay, easing: easeOut, fill: 'backwards' }
+  );
   revealAnimations.add(animation);
   animation.finished.then(() => revealAnimations.delete(animation), () => revealAnimations.delete(animation));
 }
 
+const revealTargets = [...document.querySelectorAll(
+  'main section h2, .footer-invitation h2, .section-heading > p, .practice-note > *, ' +
+  '.about-copy > p, .about-signoff, .about-copy > .btn, .review-overview, .review-viewport, ' +
+  '.footer-details > div, .footer-book, .first-visit, .t-card, .about-photo, .footer-wordmark, .faq-list > details'
+)];
+let revealObserver;
 if ('IntersectionObserver' in window) {
-  const headings = document.querySelectorAll('main section h2, .footer-invitation h2');
-  headings.forEach(heading => {
-    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(node => {
-      const fragment = document.createDocumentFragment();
-      for (const part of node.textContent.match(/\S+|\s+/g) || []) {
-        if (/^\s+$/.test(part)) fragment.append(document.createTextNode(part));
-        else {
-          const word = document.createElement('i');
-          word.className = 'rw';
-          word.textContent = part;
-          fragment.append(word);
-        }
-      }
-      node.replaceWith(fragment);
-    });
-    heading.classList.add('heading-rw');
-  });
-
-  const targets = new Set(headings);
-  document.querySelectorAll('.section-heading > p, .practice-note > *, .about-copy > p, .about-signoff, .about-copy > .btn, .review-overview, .review-viewport, .footer-details > div, .footer-book, .first-visit, .t-card, .about-photo, .footer-wordmark').forEach(element => targets.add(element));
-  const observer = new IntersectionObserver(entries => {
+  revealObserver = new IntersectionObserver(entries => {
     for (const { target, isIntersecting } of entries) {
       if (!isIntersecting) continue;
-      observer.unobserve(target);
+      revealObserver.unobserve(target);
+      if (target.dataset.revealed) continue;
       target.dataset.revealed = 'true';
-      if (motionPreference.matches) continue;
-      if (target.classList.contains('heading-rw')) {
-        target.querySelectorAll('.rw').forEach((word, index) => playReveal(word,
-          [{ opacity: 0, transform: 'translateY(.5em)' }, { opacity: 1, transform: 'translateY(0)' }], 720, index * 70));
-      } else if (target.matches('.about-photo, .footer-wordmark')) {
-        playReveal(target, [{ clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0)' }], 950);
-      } else if (target.matches('.t-card')) {
-        const delay = window.matchMedia('(min-width: 761px)').matches ? [...target.parentElement.children].indexOf(target) * 120 : 0;
-        playReveal(target, [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0)' }], 700, delay);
-        playReveal(target.querySelector('img'),
-          [{ clipPath: 'inset(0 0 100% 0)', transform: 'scale(1.14)' }, { clipPath: 'inset(0)', transform: 'scale(1)' }], 900, delay);
-      } else {
-        playReveal(target, [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'translateY(0)' }]);
-      }
+      const delay = target.matches('.t-card') && window.matchMedia('(min-width: 761px)').matches
+        ? [...target.parentElement.children].indexOf(target) * 60 : 0;
+      playReveal(target, delay);
     }
-  }, { threshold: 0.12 });
-  targets.forEach(target => observer.observe(target));
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+  revealTargets.forEach(target => revealObserver.observe(target));
 }
 
-// Reveal focused content immediately rather than animating keyboard navigation.
+// Keyboard and anchor navigation must never wait for a decorative entrance.
 document.addEventListener('focusin', event => {
+  revealTargets.forEach(target => {
+    if (target.contains(event.target) || event.target.contains(target)) {
+      target.dataset.revealed = 'true';
+      revealObserver?.unobserve(target);
+    }
+  });
   revealAnimations.forEach(animation => {
     const target = animation.effect?.target;
     if (target && (target.contains(event.target) || event.target.contains(target))) animation.cancel();

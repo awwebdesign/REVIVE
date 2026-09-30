@@ -1,0 +1,2 @@
+390px: hero/nav entrances, hero zoom, section/FAQ fades, once-only cards, SVG arrows, no overflow, reduced-motion cancellation OK.
+1440px: hero/nav entrances, hero zoom, section/FAQ fades, once-only cards, SVG arrows, no overflow, reduced-motion cancellation OK.

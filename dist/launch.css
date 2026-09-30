@@ -115,7 +115,7 @@ p { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .hero-mark, .reveal, .text-reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .hero-mark, .reveal, .text-reveal { animation: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; }
 }
 @media print {
   .rv-nav, .rv-drawer, .legal-nav, .legal-back, .legal-footer, .skip { display: none !important; }
@@ -127,4 +127,18 @@ p { text-wrap: pretty; }
   .legal-copy { max-width: none; font-size: 11pt; }
   .legal-copy h2 { break-after: avoid; }
   .legal-heading h1 { font-size: 28pt; }
+}
+
+/* A drawn arrow keeps the desktop line icon consistent on mobile platforms. */
+.btn .ar, .rv-pill .ar { display: inline-flex; flex-shrink: 0; width: 1em; height: 1em; }
+.ar svg { display: block; width: 100%; height: 100%; }
+.t-go::after {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-left: .4em;
+  vertical-align: -.15em;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16m-6-6 6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
 }
