@@ -85,61 +85,51 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-// Fade each content block once as it enters the viewport. Off-screen content
-// remains readable without JavaScript or IntersectionObserver support.
-const revealAnimations = new Set();
+// Arm reveals before observing: content must be hidden BEFORE it enters view.
+// Only opacity changes, so text and photos stay in their original positions.
 const syncMotion = () => {
   document.documentElement.classList.toggle('restored-motion', !motionPreference.matches);
-  if (motionPreference.matches) {
-    revealAnimations.forEach(animation => animation.cancel());
-    revealAnimations.clear();
-  }
 };
 syncMotion();
 motionPreference.addEventListener('change', syncMotion);
 
-function playReveal(element, delay = 0) {
-  if (motionPreference.matches || !element.animate) return;
-  const animation = element.animate(
-    [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }],
-    { duration: 600, delay, easing: easeOut, fill: 'backwards' }
-  );
-  revealAnimations.add(animation);
-  animation.finished.then(() => revealAnimations.delete(animation), () => revealAnimations.delete(animation));
-}
-
 const revealTargets = [...document.querySelectorAll(
-  'main section h2, .footer-invitation h2, .section-heading > p, .practice-note > *, ' +
+  'main:not(.legal-main) section h2, .footer-invitation h2, .section-heading > p, .practice-note > *, ' +
   '.about-copy > p, .about-signoff, .about-copy > .btn, .review-overview, .review-viewport, ' +
   '.footer-details > div, .footer-book, .first-visit, .t-card, .about-photo, .footer-wordmark, .faq-list > details'
 )];
 let revealObserver;
+function revealImmediately(target) {
+  target.dataset.revealInstant = '';
+  target.dataset.revealed = 'true';
+  revealObserver?.unobserve(target);
+}
 if ('IntersectionObserver' in window) {
   revealObserver = new IntersectionObserver(entries => {
     for (const { target, isIntersecting } of entries) {
       if (!isIntersecting) continue;
-      revealObserver.unobserve(target);
-      if (target.dataset.revealed) continue;
       target.dataset.revealed = 'true';
-      const delay = target.matches('.t-card') && window.matchMedia('(min-width: 761px)').matches
-        ? [...target.parentElement.children].indexOf(target) * 60 : 0;
-      playReveal(target, delay);
+      revealObserver.unobserve(target);
     }
-  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
-  revealTargets.forEach(target => revealObserver.observe(target));
+  }, { threshold: 0, rootMargin: '0px 0px -64px 0px' });
+  revealTargets.forEach(target => {
+    target.dataset.scrollReveal = '';
+    // Restored scroll positions and already-focused content stay readable.
+    if (target.getBoundingClientRect().bottom < 0 || target.contains(document.activeElement)) {
+      revealImmediately(target);
+    }
+  });
+  requestAnimationFrame(() => {
+    revealTargets.forEach(target => {
+      if (!target.dataset.revealed) revealObserver.observe(target);
+    });
+  });
 }
 
 // Keyboard and anchor navigation must never wait for a decorative entrance.
 document.addEventListener('focusin', event => {
   revealTargets.forEach(target => {
-    if (target.contains(event.target) || event.target.contains(target)) {
-      target.dataset.revealed = 'true';
-      revealObserver?.unobserve(target);
-    }
-  });
-  revealAnimations.forEach(animation => {
-    const target = animation.effect?.target;
-    if (target && (target.contains(event.target) || event.target.contains(target))) animation.cancel();
+    if (target.contains(event.target) || event.target.contains(target)) revealImmediately(target);
   });
 });
 

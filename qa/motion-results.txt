@@ -1,2 +1,5 @@
-390px: hero/nav entrances, hero zoom, section/FAQ fades, once-only cards, SVG arrows, no overflow, reduced-motion cancellation OK.
-1440px: hero/nav entrances, hero zoom, section/FAQ fades, once-only cards, SVG arrows, no overflow, reduced-motion cancellation OK.
+390px / no-preference: hidden before scroll, visible intermediate fade, fully visible afterward, no position shift, no replay, arrows OK.
+390px / reduce: hidden before scroll, visible intermediate fade, fully visible afterward, no position shift, no replay, arrows OK.
+1440px / no-preference: hidden before scroll, visible intermediate fade, fully visible afterward, no position shift, no replay, arrows OK.
+1440px / reduce: hidden before scroll, visible intermediate fade, fully visible afterward, no position shift, no replay, arrows OK.
+Keyboard focus, print, JavaScript disabled and unsupported-observer fallbacks OK.
